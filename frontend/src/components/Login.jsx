@@ -3,22 +3,22 @@ import axios from "axios";
 import { replace, useFormik } from "formik";
 import { loginSchema } from "../schemas/LoginSchema";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../provider/AuthProvider";
 import { Email } from "../icons/Email";
 import { Key } from "../icons/Key";
 
 function Login() {
-  const { setToken, token } = useAuth();
+  const { token, user, login } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (token) {
-      navigate("/logout");
+    if (token && user) {
+      navigate("/");
     }
-  }, [token, navigate])
+  }, [token, user, navigate]);
 
-  const { values, errors, touched, handleChange, handleBlur, handleSubmit  } =
+  const { values, errors, touched, handleChange, handleBlur, handleSubmit } =
     useFormik({
       initialValues: {
         email: "",
@@ -32,20 +32,18 @@ function Login() {
 
   const handleLogin = async () => {
     try {
-      const res = await axios.post(
-        `http://localhost:7460/api/auth/login`,
-        { email: values.email, password: values.password }
-      );
+      const res = await axios.post(`http://localhost:7460/api/auth/login`, {
+        email: values.email,
+        password: values.password,
+      });
 
-      const Token = res.data.token
-      console.log("token ajmi", Token)
+      const newToken = res.data.token;
+      const newUser = res.data.user;
 
-      if (Token) {
-        setToken(Token);
+      if (newToken && newUser) {
         toast.success("Login successful !", { duration: 2000 });
-
+        login(newToken, newUser);
       }
-
     } catch (err) {
       if (err.response && err.response.status === 400) {
         toast.error(`${err.response.data.message}`, {
@@ -55,7 +53,7 @@ function Login() {
         toast.error("Registration failed! Something went wrong!", {
           duration: 2000,
         });
-        console.log(err)
+        console.log(err);
       }
     }
   };
@@ -120,7 +118,15 @@ function Login() {
             )}
           </div>
         </div>
-        <div className="text-center mt-3">
+
+        <div className="flex">
+          <div className="flex mx-auto gap-10 text-lg">
+            <p>forgot the password ?</p>
+            <Link className="text-[#007DC0] underline">reset password</Link>
+          </div>
+        </div>
+
+        <div className="text-center mt-10 ">
           <button
             className="bg-[#007DC0] w-[50%] text-md text-white font-bold"
             type="submit"

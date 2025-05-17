@@ -4,28 +4,45 @@ import { createContext, useContext, useEffect, useState, useMemo } from "react";
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-  const [token, setToken_] = useState(localStorage.getItem("token"));
+  const [token, setToken] = useState(localStorage.getItem("token"));
 
-  const setToken = (newToken) => {
-    setToken_(newToken);
-  };
+  const [user, setUser] = useState(()=>{
+    const storedUser = localStorage.getItem("user")
+    return storedUser ? JSON.parse(storedUser) : null
+  })
+
+  const login = (newToken, userData) => {
+    localStorage.setItem("user", JSON.stringify(userData))
+    setUser(userData)
+    setToken(newToken)
+  }
+
+  const logout = () => {
+    setUser(null)
+    localStorage.removeItem("user")
+    setToken(null)
+    localStorage.removeItem("token")
+  }
 
   useEffect(() => {
-    if (token) {
+    if (token && user) {
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
       localStorage.setItem("token", token);
     } else {
       delete axios.defaults.headers.common["Authorization"];
       localStorage.removeItem("token");
+      localStorage.removeItem("user");
     }
-  }, [token]);
+  }, [token, user]);
 
   const contextValue = useMemo(
     () => ({
       token,
-      setToken,
+      user,
+      login,
+      logout
     }),
-    [token]
+    [token, user]
   );
 
   return (
