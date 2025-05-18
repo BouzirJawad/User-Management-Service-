@@ -14,6 +14,7 @@ function Register(props) {
       initialValues: {
         username: "",
         email: "",
+        number: "",
         isAdmin: false,
         password: "",
         confirmPassword: "",
@@ -84,7 +85,7 @@ function Register(props) {
                 />
               </div>
             </div>
-            {errors.email && touched.username && (
+            {errors.username && touched.username && (
               <p className="text-xs mb-1 text-red-500">{errors.username}</p>
             )}
           </div>
@@ -112,6 +113,32 @@ function Register(props) {
             </div>
             {errors.email && touched.email && (
               <p className="text-xs mb-1 text-red-500">{errors.email}</p>
+            )}
+          </div>
+
+          <div className="mb-2 w-[80%] mx-auto">
+            <div className="flex mx-auto w-full">
+              <div className="bg-[#007DC0] rounded-l-md w-10 flex">
+                <Profile className="text-3xl text-white mx-auto my-auto" />
+              </div>
+              <div className="w-full">
+                <input
+                  type="text"
+                  name="number"
+                  placeholder="phone number"
+                  value={values.number}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className={
+                    errors.number && touched.number
+                      ? "input-error rounded-r-md bg-[#D7F1FF] p-2 w-full border-b-2 border-[#c00000]"
+                      : "rounded-r-md bg-[#D7F1FF] p-2 w-full border-b-2 border-[#007DC0]"
+                  }
+                />
+              </div>
+            </div>
+            {errors.number && touched.number && (
+              <p className="text-xs mb-1 text-red-500">{errors.number}</p>
             )}
           </div>
 

@@ -9,14 +9,14 @@ import { Email } from "../icons/Email";
 import { Key } from "../icons/Key";
 
 function Login() {
-  const { token, user, login } = useAuth();
+  const { token, login } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (token && user) {
+    if (token) {
       navigate("/");
     }
-  }, [token, user, navigate]);
+  }, [token, navigate]);
 
   const { values, errors, touched, handleChange, handleBlur, handleSubmit } =
     useFormik({
@@ -38,11 +38,9 @@ function Login() {
       });
 
       const newToken = res.data.token;
-      const newUser = res.data.user;
-
-      if (newToken && newUser) {
+      if (newToken) {
         toast.success("Login successful !", { duration: 2000 });
-        login(newToken, newUser);
+        login(newToken);
       }
     } catch (err) {
       if (err.response && err.response.status === 400) {

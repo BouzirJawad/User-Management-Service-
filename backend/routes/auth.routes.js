@@ -15,16 +15,13 @@ router.post("/register", validateRegister, checkValidation, authController.regis
 router.post("/login", validateLogin, checkValidation, authController.login)
 
 router.get("/me", authMiddleware, authController.getMe)
-router.get("/admin", authMiddleware, adminMiddleware, (req, res) =>{
-    res.send("this is admin route")
-})
-
-router.get("/users", async (req, res)=>{
+router.get("/admin", authMiddleware, adminMiddleware, async (req, res) =>{
     const users = await User.find()
     const usersNumber = users.length
 
-    res.status(201).json({message: usersNumber })
+    res.status(200).json(usersNumber)
 })
+
 
 router.get("/test", (req, res) =>{
     res.send("hello world i'm testing my backend")

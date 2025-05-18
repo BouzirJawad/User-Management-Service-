@@ -7,6 +7,7 @@ import Connect from "../pages/Connect"
 import Profile from "../pages/Profile";
 import Admin from "../pages/Admin";
 import OpsPage from "../pages/OpsPage";
+import Update from "../pages/Update";
 
 const Routes = () => {
     const { token, user} = useAuth()
@@ -19,6 +20,10 @@ const Routes = () => {
                 {
                     path: "/",
                     element: <Profile />
+                },
+                {
+                    path: "/edit-info/:id",
+                    element: <Update />
                 },
                 {
                     path: "/logout",
@@ -38,7 +43,7 @@ const Routes = () => {
             element: <AdminRoutes />,
             children: [
                 {
-                    path: "d",
+                    path: "",
                     element: <Admin />
                 },
             ]

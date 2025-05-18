@@ -11,9 +11,21 @@ const AuthProvider = ({ children }) => {
     return storedUser ? JSON.parse(storedUser) : null
   })
 
-  const login = (newToken, userData) => {
-    localStorage.setItem("user", JSON.stringify(userData))
-    setUser(userData)
+  const getUser = async () => {
+    const res = await axios.get("http://localhost:7460/api/auth/me",{
+        headers:{
+          Authorization: `Bearer ${token}`
+        }
+    })
+    const newUser = res.data
+
+    if (newUser) {  
+      localStorage.setItem("user", JSON.stringify(newUser))
+      setUser(newUser)
+    }
+  }
+
+  const login = (newToken) => {
     setToken(newToken)
   }
 
@@ -25,15 +37,16 @@ const AuthProvider = ({ children }) => {
   }
 
   useEffect(() => {
-    if (token && user) {
+    if (token) {
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
       localStorage.setItem("token", token);
+      getUser()
     } else {
       delete axios.defaults.headers.common["Authorization"];
       localStorage.removeItem("token");
       localStorage.removeItem("user");
     }
-  }, [token, user]);
+  }, [token]);
 
   const contextValue = useMemo(
     () => ({

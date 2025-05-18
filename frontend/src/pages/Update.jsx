@@ -1,14 +1,12 @@
 import React from "react";
 import { useAuth } from "../provider/AuthProvider";
 import { Logout } from "../icons/Logout";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
-function Profile() {
+function Update() {
   const { user, logout } = useAuth();
-
-  if (!user) {
-    return (<p> Loading profile ...</p>)
-  }
+  const { userId } = useParams()
+  const navigate = useNavigate()
 
   return (
     <div className="h-screen flex items-center justify-center bg-gradient-to-br from-[#001F3F] to-[#3b9aff]">
@@ -29,33 +27,22 @@ function Profile() {
               <p>Username:</p>
               <p>Email:</p>
               <p>Number:</p>
-              <p>Role:</p>
             </div>
             <div className="space-y-3">
               <p>{user.username}</p>
               <p>{user.email}</p>
               <p>{user.number}</p>
-              <p>{user.isAdmin ? "Admin" : "User"}</p>
             </div>
           </div>
 
           <div className="flex">
-            <div className="flex mx-auto gap-5">
-              <Link to={`/edit-info/${user._id}`}>
-                <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold  transition duration-300">
-                  Update Info
-                </button>
-              </Link>
-              <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold  transition duration-300">
-                Change password
+            <div className="flex mx-auto gap-10 w-[80%]">
+              <button onClick={()=>navigate(-1)} className="bg-gray-400 w-1/2 hover:bg-gray-700 text-white font-semibold  transition duration-300">
+                cancel
               </button>
-              {user.isAdmin && (
-                <Link to="/admin">
-                  <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold  transition duration-300">
-                    Admin page
-                  </button>
-                </Link>
-              )}
+              <button className="bg-blue-600 w-1/2 hover:bg-blue-700 text-white font-semibold  transition duration-300">
+                Update
+              </button>
             </div>
           </div>
         </div>
@@ -64,4 +51,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default Update;
