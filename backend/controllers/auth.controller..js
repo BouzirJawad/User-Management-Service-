@@ -4,7 +4,7 @@ const { generateToken } = require("../config/jwt")
 
 const register = async (req, res) => {
     try {
-        const { username, email, password, isAdmin } = req.body
+        const { username, email, number, password, isAdmin } = req.body
         const user = await User.findOne({email})
 
         if(user){
@@ -13,7 +13,7 @@ const register = async (req, res) => {
         }
 
         const hashPass = await bcrypt.hash(password, 10)
-        const newUser = new User({username, email, password: hashPass, isAdmin})
+        const newUser = new User({username, email, number, password: hashPass, isAdmin})
 
         await newUser.save()
         res.status(201).json({message: "User registered successfully!"})
@@ -42,7 +42,7 @@ const login = async (req, res) => {
         }
 
         const token = generateToken(user._id)
-        res.status(201).json({token, user})
+        res.status(201).json({token})
 
     } catch (error) {
         console.error(error.message)

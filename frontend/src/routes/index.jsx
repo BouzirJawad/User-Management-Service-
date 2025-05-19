@@ -1,11 +1,16 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { useAuth } from "../provider/AuthProvider";
 import { ProtectedRoute } from "./ProtectedRoute";
+import { AdminRoutes } from "./AdminRoutes";
 import Logout from "../pages/Logout"
 import Connect from "../pages/Connect"
+import Profile from "../pages/Profile";
+import Admin from "../pages/Admin";
+import OpsPage from "../pages/OpsPage";
+import Update from "../pages/Update";
 
 const Routes = () => {
-    const { token } = useAuth()
+    const { token, user} = useAuth()
 
     const authRoutesOnly = [
         { 
@@ -13,8 +18,12 @@ const Routes = () => {
             element: <ProtectedRoute />,
             children: [
                 {
-                    path: "/profile",
-                    element: <></>
+                    path: "/",
+                    element: <Profile />
+                },
+                {
+                    path: "/edit-info/:id",
+                    element: <Update />
                 },
                 {
                     path: "/logout",
@@ -22,14 +31,23 @@ const Routes = () => {
                 },
                 {
                     path: "*",
-                    element: <div>OPS page</div>
+                    element: <OpsPage />
                 }
             ]
         }
     ]
 
     const adminRoutesOnly = [
-        {}
+        {
+            path: "/admin",
+            element: <AdminRoutes />,
+            children: [
+                {
+                    path: "",
+                    element: <Admin />
+                },
+            ]
+        }
     ]
 
     const nonAuthRoutesOnly = [
@@ -43,7 +61,7 @@ const Routes = () => {
         }
     ]
 
-    const router = createBrowserRouter(token ? authRoutesOnly : nonAuthRoutesOnly)
+    const router = createBrowserRouter(token ? user?.isAdmin? [...authRoutesOnly, ...adminRoutesOnly] : authRoutesOnly : nonAuthRoutesOnly)
 
     return <RouterProvider router={router} />
 }
