@@ -17,7 +17,7 @@ export default function Connect() {
       style={{ backgroundImage: `url(${backGroundImage})` }}
       className="bg-cover h-screen bg-center flex justify-center items-center"
     >
-      <div className="relative w-[70%] h-[80%] overflow-hidden mx-auto  rounded-xl shadow-lg flex ">
+      <div className="relative w-[70%] h-[90%] overflow-hidden mx-auto  rounded-xl shadow-lg flex ">
         {/* Sliding Panel */}
         <motion.div
           className="absolute w-1/2 h-full bg-[#007BFF] text-white flex flex-col justify-center items-center p-8 z-10 transition-all duration-500"

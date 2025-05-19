@@ -13,7 +13,7 @@ function Admin() {
   }, []);
 
   const fetchUsers = async () => {
-    const res = await axios.get("http://localhost:7460/api/auth/admin", {
+    const res = await axios.get("http://localhost:7460/api/admin", {
       headers: {
         Authorization: `Bearer ${token}`,
       },

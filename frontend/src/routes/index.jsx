@@ -22,7 +22,7 @@ const Routes = () => {
                     element: <Profile />
                 },
                 {
-                    path: "/edit-info/:id",
+                    path: "edit-info/:id",
                     element: <Update />
                 },
                 {

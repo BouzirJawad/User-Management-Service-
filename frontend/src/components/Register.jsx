@@ -31,6 +31,7 @@ function Register(props) {
       const res = await axios.post("http://localhost:7460/api/auth/register", {
         username: values.username,
         email: values.email,
+        number: values.number,
         password: values.password,
         isAdmin: values.isAdmin,
       });

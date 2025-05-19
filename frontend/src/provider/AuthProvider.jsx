@@ -12,7 +12,7 @@ const AuthProvider = ({ children }) => {
   })
 
   const getUser = async () => {
-    const res = await axios.get("http://localhost:7460/api/auth/me",{
+    const res = await axios.get("http://localhost:7460/api/profile/me",{
         headers:{
           Authorization: `Bearer ${token}`
         }
@@ -52,6 +52,7 @@ const AuthProvider = ({ children }) => {
     () => ({
       token,
       user,
+      setUser,
       login,
       logout
     }),

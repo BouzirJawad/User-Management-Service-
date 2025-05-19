@@ -11,16 +11,18 @@ const {
 } = require("../middleware/validate.middleware");
 
 
-router.post("/register", validateRegister, checkValidation, authController.register)
-router.post("/login", validateLogin, checkValidation, authController.login)
+router.post("/auth/register", validateRegister, checkValidation, authController.register)
+router.post("/auth/login", validateLogin, checkValidation, authController.login)
 
-router.get("/me", authMiddleware, authController.getMe)
+router.get("/profile/me", authMiddleware, authController.getMe)
 router.get("/admin", authMiddleware, adminMiddleware, async (req, res) =>{
     const users = await User.find()
     const usersNumber = users.length
 
     res.status(200).json(usersNumber)
 })
+
+router.put("/edit-info/:id", authMiddleware, authController.updateUser)
 
 
 router.get("/test", (req, res) =>{
