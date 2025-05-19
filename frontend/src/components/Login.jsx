@@ -38,12 +38,9 @@ function Login() {
       );
 
       const Token = res.data.token
-      console.log("token ajmi", Token)
-
       if (Token) {
         setToken(Token);
         toast.success("Login successful !", { duration: 2000 });
-
       }
 
     } catch (err) {

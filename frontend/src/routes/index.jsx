@@ -1,7 +1,7 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { useAuth } from "../provider/AuthProvider";
 import { ProtectedRoute } from "./ProtectedRoute";
-import Logout from "../components/Logout"
+import Logout from "../pages/Logout"
 import Connect from "../pages/Connect"
 
 const Routes = () => {
@@ -13,6 +13,10 @@ const Routes = () => {
             element: <ProtectedRoute />,
             children: [
                 {
+                    path: "/profile",
+                    element: <></>
+                },
+                {
                     path: "/logout",
                     element: <Logout />
                 },
@@ -22,6 +26,10 @@ const Routes = () => {
                 }
             ]
         }
+    ]
+
+    const adminRoutesOnly = [
+        {}
     ]
 
     const nonAuthRoutesOnly = [
